@@ -16,6 +16,7 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
      * -클라이언트 아이디
      * -클라이언트 id, secret (자격 증명)
      * 두 개만 필요(일반 공급자 한정)
+     * 얘는 라잌 UsersDetails
      */
     private ClientRegistration clientRegistration() {
         return CommonOAuth2Provider.GITHUB
