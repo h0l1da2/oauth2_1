@@ -1,13 +1,27 @@
 package com.example.oauth2_1.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 
 @Configuration
 public class ProjectConfig extends WebSecurityConfigurerAdapter {
+
+    /**
+     * UsersDetailsService 와 같은 역할을 한다
+     * ClientRegistrationRepository 는 등록 ID로
+     * ClientRegistration 를 찾는다
+     */
+    @Bean
+    public ClientRegistrationRepository clientRegistrationRepository() {
+        ClientRegistration clientRegistration = clientRegistration();
+        return new InMemoryClientRegistrationRepository(clientRegistration);
+    }
 
     /**
      * 깃허브를 클라이언트로 등록
@@ -34,4 +48,20 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated();
     }
+
+    /**
+     * 이렇게 Customizer 로도
+     * clientRegistrationRepository 객체를 설정할 수 있다
+     * 하지만 한 옵션을 선택하면 구성 방식을 혼용하진 말자
+     */
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.oauth2Login(c -> {
+//            c.clientRegistrationRepository(clientRegistrationRepository())
+//                }) // 인증 메서드(필터 체인에 oath2 관련 새 인증 필터 추가)
+//                .and()
+//                .authorizeRequests()
+//                .anyRequest()
+//                .authenticated();
+//    }
 }
