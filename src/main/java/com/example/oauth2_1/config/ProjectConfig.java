@@ -17,11 +17,11 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
      * ClientRegistrationRepository 는 등록 ID로
      * ClientRegistration 를 찾는다
      */
-    @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        ClientRegistration clientRegistration = clientRegistration();
-        return new InMemoryClientRegistrationRepository(clientRegistration);
-    }
+//    @Bean
+//    public ClientRegistrationRepository clientRegistrationRepository() {
+//        ClientRegistration clientRegistration = clientRegistration();
+//        return new InMemoryClientRegistrationRepository(clientRegistration);
+//    }
 
     /**
      * 깃허브를 클라이언트로 등록
@@ -32,14 +32,22 @@ public class ProjectConfig extends WebSecurityConfigurerAdapter {
      * 두 개만 필요(일반 공급자 한정)
      * 얘는 라잌 UsersDetails
      */
-    private ClientRegistration clientRegistration() {
-        return CommonOAuth2Provider.GITHUB
-                .getBuilder("github")
-                .clientId("1a58e6491976749ce819")
-                .clientSecret("543bb69026e334d17320cf91085a9f498a837485")
-                .build();
-    }
+//    private ClientRegistration clientRegistration() {
+//        return CommonOAuth2Provider.GITHUB
+//                .getBuilder("github")
+//                .clientId("1a58e6491976749ce819")
+//                .clientSecret("543bb69026e334d17320cf91085a9f498a837485")
+//                .build();
+//    }
 
+    /**
+     * application.properties 에 클라이언트 정보를 등록하면
+     * 굳이 클래스에서 다른 설정 안 해도 됨
+     * -
+     * 다만, 등록 세부 정보를 저장하거나
+     * 웹 서비스에서 얻거나 하는 다른 기능이 필요하면
+     * ClientRegistrationRepository 를 커스텀 하는 것이 맞다
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.oauth2Login() // 인증 메서드(필터 체인에 oath2 관련 새 인증 필터 추가)
